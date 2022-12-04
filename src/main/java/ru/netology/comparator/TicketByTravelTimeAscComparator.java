@@ -1,6 +1,7 @@
 package ru.netology.comparator;
 
 import ru.netology.domain.Ticket;
+
 import java.util.Comparator;
 
 public class TicketByTravelTimeAscComparator implements Comparator<Ticket> {
