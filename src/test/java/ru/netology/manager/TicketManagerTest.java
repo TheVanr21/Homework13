@@ -1,6 +1,7 @@
 package ru.netology.manager;
 
 import org.junit.jupiter.api.*;
+import ru.netology.comparator.TicketByTravelTimeAscComparator;
 import ru.netology.domain.Ticket;
 import ru.netology.repository.TicketRepository;
 
@@ -16,6 +17,7 @@ public class TicketManagerTest {
 
     TicketRepository repository = new TicketRepository();
     TicketManager manager = new TicketManager(repository);
+    TicketByTravelTimeAscComparator comparator = new TicketByTravelTimeAscComparator();
 
     @Test
     public void shouldAdd() {
@@ -44,7 +46,7 @@ public class TicketManagerTest {
         }
 
         @Test
-        public void shouldFindTickets() {
+        public void shouldFindTicketsPriceSort() {
             Ticket[] expected = {ticket7, ticket1};
             Ticket[] actual = manager.findAll("LED", "SVO");
 
@@ -52,9 +54,25 @@ public class TicketManagerTest {
         }
 
         @Test
-        public void shouldNotFindTickets() {
+        public void shouldNotFindTicketsPriceSort() {
             Ticket[] expected = {};
             Ticket[] actual = manager.findAll("SVO", "DYU");
+
+            Assertions.assertArrayEquals(expected, actual);
+        }
+
+        @Test
+        public void shouldFindTicketsTravelTimeSort() {
+            Ticket[] expected = {ticket1, ticket7};
+            Ticket[] actual = manager.findAll("LED", "SVO", comparator);
+
+            Assertions.assertArrayEquals(expected, actual);
+        }
+
+        @Test
+        public void shouldNotFindTicketsTravelTimeSort() {
+            Ticket[] expected = {};
+            Ticket[] actual = manager.findAll("SVO", "DYU", comparator);
 
             Assertions.assertArrayEquals(expected, actual);
         }
